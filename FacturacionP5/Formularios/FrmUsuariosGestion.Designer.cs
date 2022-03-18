@@ -55,7 +55,6 @@
             this.BtnEditar = new System.Windows.Forms.Button();
             this.BtnEliminar = new System.Windows.Forms.Button();
             this.BtnLimpiarForm = new System.Windows.Forms.Button();
-            this.BtnCerrar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtBuscar = new System.Windows.Forms.TextBox();
             this.CbVerActivos = new System.Windows.Forms.CheckBox();
@@ -83,6 +82,7 @@
             this.DgvListaUsuarios.Size = new System.Drawing.Size(798, 244);
             this.DgvListaUsuarios.TabIndex = 0;
             this.DgvListaUsuarios.VirtualMode = true;
+            this.DgvListaUsuarios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListaUsuarios_CellClick);
             this.DgvListaUsuarios.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.DgvListaUsuarios_DataBindingComplete);
             // 
             // CIDUsuario
@@ -175,6 +175,7 @@
             this.TxtPassword.Size = new System.Drawing.Size(294, 20);
             this.TxtPassword.TabIndex = 13;
             this.TxtPassword.UseSystemPasswordChar = true;
+            this.TxtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtPassword_KeyPress);
             // 
             // label8
             // 
@@ -191,6 +192,7 @@
             this.TxtTelefono.Name = "TxtTelefono";
             this.TxtTelefono.Size = new System.Drawing.Size(327, 20);
             this.TxtTelefono.TabIndex = 11;
+            this.TxtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTelefono_KeyPress);
             // 
             // label7
             // 
@@ -207,6 +209,7 @@
             this.TxtEmailRespaldo.Name = "TxtEmailRespaldo";
             this.TxtEmailRespaldo.Size = new System.Drawing.Size(327, 20);
             this.TxtEmailRespaldo.TabIndex = 9;
+            this.TxtEmailRespaldo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtEmailRespaldo_KeyPress);
             // 
             // label6
             // 
@@ -223,6 +226,7 @@
             this.TxtCedula.Name = "TxtCedula";
             this.TxtCedula.Size = new System.Drawing.Size(369, 20);
             this.TxtCedula.TabIndex = 7;
+            this.TxtCedula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtCedula_KeyPress);
             // 
             // label5
             // 
@@ -239,6 +243,7 @@
             this.TxtEmail.Name = "TxtEmail";
             this.TxtEmail.Size = new System.Drawing.Size(369, 20);
             this.TxtEmail.TabIndex = 5;
+            this.TxtEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtEmail_KeyPress);
             // 
             // label4
             // 
@@ -255,6 +260,7 @@
             this.TxtNombre.Name = "TxtNombre";
             this.TxtNombre.Size = new System.Drawing.Size(369, 20);
             this.TxtNombre.TabIndex = 3;
+            this.TxtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtNombre_KeyPress);
             // 
             // label3
             // 
@@ -303,12 +309,13 @@
             this.BtnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnEditar.ForeColor = System.Drawing.Color.White;
-            this.BtnEditar.Location = new System.Drawing.Point(205, 492);
+            this.BtnEditar.Location = new System.Drawing.Point(236, 492);
             this.BtnEditar.Name = "BtnEditar";
             this.BtnEditar.Size = new System.Drawing.Size(141, 39);
             this.BtnEditar.TabIndex = 3;
             this.BtnEditar.Text = "EDITAR";
             this.BtnEditar.UseVisualStyleBackColor = false;
+            this.BtnEditar.Click += new System.EventHandler(this.BtnEditar_Click);
             // 
             // BtnEliminar
             // 
@@ -316,7 +323,7 @@
             this.BtnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnEliminar.ForeColor = System.Drawing.Color.White;
-            this.BtnEliminar.Location = new System.Drawing.Point(391, 492);
+            this.BtnEliminar.Location = new System.Drawing.Point(455, 492);
             this.BtnEliminar.Name = "BtnEliminar";
             this.BtnEliminar.Size = new System.Drawing.Size(132, 39);
             this.BtnEliminar.TabIndex = 4;
@@ -327,24 +334,13 @@
             // 
             this.BtnLimpiarForm.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.BtnLimpiarForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnLimpiarForm.Location = new System.Drawing.Point(557, 492);
+            this.BtnLimpiarForm.Location = new System.Drawing.Point(664, 492);
             this.BtnLimpiarForm.Name = "BtnLimpiarForm";
             this.BtnLimpiarForm.Size = new System.Drawing.Size(109, 39);
             this.BtnLimpiarForm.TabIndex = 5;
             this.BtnLimpiarForm.Text = "Limpiar Formulario";
             this.BtnLimpiarForm.UseVisualStyleBackColor = false;
-            // 
-            // BtnCerrar
-            // 
-            this.BtnCerrar.BackColor = System.Drawing.Color.SaddleBrown;
-            this.BtnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCerrar.ForeColor = System.Drawing.Color.White;
-            this.BtnCerrar.Location = new System.Drawing.Point(695, 492);
-            this.BtnCerrar.Name = "BtnCerrar";
-            this.BtnCerrar.Size = new System.Drawing.Size(106, 39);
-            this.BtnCerrar.TabIndex = 6;
-            this.BtnCerrar.Text = "Cancelar";
-            this.BtnCerrar.UseVisualStyleBackColor = false;
+            this.BtnLimpiarForm.Click += new System.EventHandler(this.BtnLimpiarForm_Click);
             // 
             // label1
             // 
@@ -388,7 +384,6 @@
             this.Controls.Add(this.CbVerActivos);
             this.Controls.Add(this.TxtBuscar);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.BtnCerrar);
             this.Controls.Add(this.BtnLimpiarForm);
             this.Controls.Add(this.BtnEliminar);
             this.Controls.Add(this.BtnEditar);
@@ -416,7 +411,6 @@
         private System.Windows.Forms.Button BtnEditar;
         private System.Windows.Forms.Button BtnEliminar;
         private System.Windows.Forms.Button BtnLimpiarForm;
-        private System.Windows.Forms.Button BtnCerrar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TxtBuscar;
         private System.Windows.Forms.CheckBox CbVerActivos;

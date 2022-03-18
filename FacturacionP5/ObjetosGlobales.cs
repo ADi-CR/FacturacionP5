@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FacturacionP5
 {
@@ -12,8 +13,9 @@ namespace FacturacionP5
         //los atributos y fns que seas públicas serán visibles en la 
         //globalidad de la aplicación. 
 
-        public static Formularios.FrmUsuariosGestion MiFormDeGestionDeUsuarios = new Formularios.FrmUsuariosGestion();
+        public static Form MiFormularioPrincipal = new Formularios.FrmMDIPrincipal();
 
+        public static Formularios.FrmUsuariosGestion MiFormDeGestionDeUsuarios = new Formularios.FrmUsuariosGestion();
 
     }
 }
