@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -9,9 +10,23 @@ namespace FacturacionP5
 {
     public static class Validacion
     {
-        //TODO: crear validador para el email
+        private const string EmailRegex =
+        @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+        + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+		[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+        + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+		[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+        + @"([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$";
 
-
+        public static bool ValidarEmail(string email)
+        {
+            if (email != null)
+            {
+                return Regex.IsMatch(email, EmailRegex);
+            }
+            else
+            { return false; }
+        }
 
         private static char g_Gen_DecimalSeparator = Convert.ToChar(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.ToString());
 

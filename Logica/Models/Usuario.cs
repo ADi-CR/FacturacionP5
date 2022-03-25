@@ -58,12 +58,70 @@ namespace Logica.Models
         {
             bool R = false;
 
+            //Según el diagrama de caso de uso expandido para la gestión de usuario
+            //para poder editar un usuario antes debemos ejecutar el caso de uso 
+            //Consultar por ID
+            Usuario usuarioConsulta = new Usuario();
+
+            usuarioConsulta = ConsultarPorID(this.IDUsuario);
+
+            if (usuarioConsulta.IDUsuario > 0)
+            {
+                //ya se validó que existe el usuario 
+
+                //Se prosigue con la edición del usuario 
+
+                Conexion MyCnn = new Conexion();
+
+                string PassWordEncriptado = "";
+
+                if (!string.IsNullOrEmpty(this.Contrasennia))
+                {
+                    Encriptador MiEncriptador = new Encriptador();
+                    PassWordEncriptado = MiEncriptador.EncriptarEnUnSentido(this.Contrasennia);
+                }
+
+                //se agregan los parámetros del SP
+                MyCnn.ListaParametros.Add(new SqlParameter("@id", this.IDUsuario));
+                MyCnn.ListaParametros.Add(new SqlParameter("@Nombre", this.Nombre));
+                MyCnn.ListaParametros.Add(new SqlParameter("@nombreUsuario", this.NombreUsuario));
+                MyCnn.ListaParametros.Add(new SqlParameter("@Telefono", this.Telefono));
+                MyCnn.ListaParametros.Add(new SqlParameter("@CorreoRespaldo", this.CorreoDeRespaldo));
+                MyCnn.ListaParametros.Add(new SqlParameter("@Contrasennia", PassWordEncriptado));
+                MyCnn.ListaParametros.Add(new SqlParameter("@Cedula", this.Cedula));
+                MyCnn.ListaParametros.Add(new SqlParameter("@idUsuarioRol", this.MiRol.IDUsuarioRol));
+
+                int Resultado = MyCnn.EjecutarUpdateDeleteInsert("SpUsuariosEditar");
+
+                if (Resultado > 0) R = true;
+
+            }
+
             return R;
         }
 
         public bool Eliminar()
         {
             bool R = false;
+
+            Conexion MyCnn = new Conexion();
+
+            MyCnn.ListaParametros.Add(new SqlParameter("@id", IDUsuario));
+
+            if (MyCnn.EjecutarUpdateDeleteInsert("SpUsuariosDesactivar") > 0) R = true;
+           
+            return R;
+        }
+
+        public bool Activar()
+        {
+            bool R = false;
+
+            Conexion MyCnn = new Conexion();
+
+            MyCnn.ListaParametros.Add(new SqlParameter("@id", IDUsuario));
+
+            if (MyCnn.EjecutarUpdateDeleteInsert("SpUsuariosActivar") > 0) R = true;
 
             return R;
         }
@@ -113,14 +171,6 @@ namespace Logica.Models
 
         }
 
-        public bool ConsultarPorID()
-        {
-            bool R = false;
-
-            return R;
-
-        }
-
         public Usuario ConsultarPorID(int pIdUsuario)
         {
             Usuario R = new Usuario();
@@ -155,7 +205,6 @@ namespace Logica.Models
 
         }
 
-
         public DataTable ListarActivos()
         {
             DataTable R = new DataTable();
@@ -172,6 +221,10 @@ namespace Logica.Models
         public DataTable ListarInactivos()
         {
             DataTable R = new DataTable();
+
+            Conexion MiCnn = new Conexion();
+                       
+            R = MiCnn.EjecutarSelect("SpUsuariosListarInactivos");
 
             return R;
         }

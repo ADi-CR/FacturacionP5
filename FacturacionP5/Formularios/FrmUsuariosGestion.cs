@@ -101,9 +101,19 @@ namespace FacturacionP5.Formularios
             DgvListaUsuarios.DataSource = dt;
 
             DgvListaUsuarios.ClearSelection();
-
         }
 
+        private void ListarUsuariosDesactivados()
+        {
+            Logica.Models.Usuario MiUsuario = new Logica.Models.Usuario();
+                        
+            DataTable dt = MiUsuario.ListarInactivos();
+
+            //mostrar datos en el dgv
+            DgvListaUsuarios.DataSource = dt;
+
+            DgvListaUsuarios.ClearSelection();
+        }
 
         private bool ValidarDatosRequeridos()
         {
@@ -114,13 +124,25 @@ namespace FacturacionP5.Formularios
                 !string.IsNullOrEmpty(TxtCedula.Text.Trim()) &&
                 !string.IsNullOrEmpty(TxtTelefono.Text.Trim()) &&
                 !string.IsNullOrEmpty(TxtEmailRespaldo.Text.Trim()) &&
-                !string.IsNullOrEmpty(TxtPassword.Text.Trim()) &&
-                CboxTipoUsuario.SelectedIndex > -1
-               )
+                CboxTipoUsuario.SelectedIndex > -1)
             {
-                //TODO: validar la contraseña SOLO en Agregar y en caso que se digite 
-                //cuando estemos en modo de edición 
-                R = true;
+                if (BtnEditar.Enabled)
+                {
+                    //si estamos en modo de edicón el password es opcional 
+                    //y poder retornar True en este punto 
+                    R = true;
+                }
+                else
+                {
+                    //Si el botón de Editar está "apagado" la única otra opción 
+                    // es que estemos en modo de Agregación y acá si debemos validar 
+                    //el password
+                    if (!string.IsNullOrEmpty(TxtPassword.Text.Trim()))
+                    {
+                        R = true;
+                    }
+
+                }
             }
             else
             {
@@ -328,17 +350,170 @@ namespace FacturacionP5.Formularios
                     CboxTipoUsuario.SelectedValue = MiUsuarioLocal.MiRol.IDUsuarioRol;
 
                     ActivarEditarYEliminar();
+
+                    //debemos considerar si la lista que se está visualizando es la de usuario 
+                    //activos o inactivos. en caso que sean los inactivos, se debe desactivar la 
+                    //edición de los campos y la utilización del botón Editar
+
+                    if (CbVerActivos.Checked)
+                    {
+                        GbDetalles.Enabled = true;
+                        BtnEditar.Enabled = true;
+                    }
+                    else
+                    {
+                        GbDetalles.Enabled = false;
+                        BtnEditar.Enabled = false;
+                    }
                 }
-
             }
-
         }
 
         private void BtnEditar_Click(object sender, EventArgs e)
         {
+            //el código es muy silimar al de agregar. Primero se validan los datos requeridos 
 
+            if (ValidarDatosRequeridos())
+            {
+                string Mensaje =  string.Format("¿Desea continuar con la modificación del usuario {0}", TxtNombre.Text.Trim());
 
+                DialogResult respuesta = MessageBox.Show(Mensaje, "???", MessageBoxButtons.YesNo);
 
+                if (respuesta == DialogResult.Yes)
+                { 
+                    MiUsuarioLocal.Nombre = TxtNombre.Text.Trim();
+                    MiUsuarioLocal.NombreUsuario = TxtEmail.Text.Trim();
+                    MiUsuarioLocal.Cedula = TxtCedula.Text.Trim();
+                    MiUsuarioLocal.Telefono = TxtTelefono.Text.Trim();
+                    MiUsuarioLocal.CorreoDeRespaldo = TxtEmailRespaldo.Text.Trim();
+                    MiUsuarioLocal.Contrasennia = TxtPassword.Text.Trim(); 
+                    MiUsuarioLocal.MiRol.IDUsuarioRol = Convert.ToInt32(CboxTipoUsuario.SelectedValue);
+
+                    if (MiUsuarioLocal.Editar())
+                    {
+                        string MensajeExito = string.Format("El usuario {0} se ha modificado correctamente", MiUsuarioLocal.Nombre);
+
+                        MessageBox.Show(MensajeExito, ":)", MessageBoxButtons.OK);
+
+                        ListarUsuariosActivos();
+                        LimpiarForm();
+                        ActivarAgregar();
+                    }
+                    else 
+                    {
+                        string MensajeFracaso = string.Format("El usuario {0} No se ha modificado correctamente", MiUsuarioLocal.Nombre);
+
+                        MessageBox.Show(MensajeFracaso, ":(", MessageBoxButtons.OK);
+
+                        //TODO: determinar si es buena idea limpiar el form 
+                    }
+                }
+            }
+        }
+
+        private void TxtEmail_Leave(object sender, EventArgs e)
+        {
+            //al salir del cuadro de text validamos en tiempo real que el formato del email sea el correcto 
+
+            if (!string.IsNullOrEmpty(TxtEmail.Text.Trim()) && !Validacion.ValidarEmail(TxtEmail.Text.Trim()))
+            {
+                MessageBox.Show("El formato del email es incorrecto!", "Error de Validación", MessageBoxButtons.OK);
+                TxtEmail.Focus();
+                TxtEmail.SelectAll();   
+            }
+
+        }
+
+        private void TxtEmailRespaldo_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TxtEmailRespaldo.Text.Trim()) && !Validacion.ValidarEmail(TxtEmailRespaldo.Text.Trim()))
+            {
+                MessageBox.Show("El formato del email de respaldo es incorrecto!", "Error de Validación", MessageBoxButtons.OK);
+                TxtEmailRespaldo.Focus();
+                TxtEmailRespaldo.SelectAll();
+            }
+        }
+
+        private void BtnVerPassword_MouseDown(object sender, MouseEventArgs e)
+        {
+            TxtPassword.UseSystemPasswordChar = false;
+        }
+
+        private void BtnVerPassword_MouseUp(object sender, MouseEventArgs e)
+        {
+            TxtPassword.UseSystemPasswordChar = true;
+        }
+
+        private void BtnEliminar_Click(object sender, EventArgs e)
+        {
+            //En la funcionalidad de Editar la consulta por el ID se ejecuta directamente en la 
+            //función Editar(), acá lo voy a consultar previamente 
+
+            if (MiUsuarioLocal.IDUsuario > 0)
+            {
+                Logica.Models.Usuario UsuarioConsulta = new Logica.Models.Usuario();
+
+                UsuarioConsulta = MiUsuarioLocal.ConsultarPorID(MiUsuarioLocal.IDUsuario);
+
+                if (UsuarioConsulta.IDUsuario > 0)
+                {
+                    string Mensaje = "";
+
+                    if (CbVerActivos.Checked)
+                    {
+                        Mensaje = string.Format("¿Desea continuar con la Eliminación del usuario {0}", MiUsuarioLocal.Nombre);
+                    }
+                    else
+                    {
+                        Mensaje = string.Format("¿Desea continuar con la Activación del usuario {0}", MiUsuarioLocal.Nombre);
+                    }
+                    
+                    DialogResult resp = MessageBox.Show(Mensaje, "???", MessageBoxButtons.YesNo);
+
+                    if (resp == DialogResult.Yes)
+                    {
+
+                        if (CbVerActivos.Checked)
+                        {
+                            if (MiUsuarioLocal.Eliminar())
+                            {
+                                MessageBox.Show("Usuario Eliminado Correctamente", ":/", MessageBoxButtons.OK);
+                            }
+                        }
+                        else
+                        {
+                            if (MiUsuarioLocal.Activar())
+                            {
+                                MessageBox.Show("Usuario Activado Correctamente", ":)", MessageBoxButtons.OK);
+                            }
+                        }
+
+                        CbVerActivos.Checked = true;
+                        ListarUsuariosActivos();
+                        LimpiarForm();
+                        ActivarAgregar();
+                        
+                    }
+                }
+            }
+        }
+
+        private void CbVerActivos_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CbVerActivos.Checked)
+            {
+                BtnEliminar.Text = "ELIMINAR";
+                ListarUsuariosActivos();
+                LimpiarForm();
+                ActivarAgregar();
+            }
+            else
+            {
+                BtnEliminar.Text = "ACTIVAR";
+                ListarUsuariosDesactivados();
+                LimpiarForm();
+                ActivarEditarYEliminar();
+            }
         }
     }
 }
