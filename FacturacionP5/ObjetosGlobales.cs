@@ -12,6 +12,7 @@ namespace FacturacionP5
         //esta clase se "auto instancia" al momento de inicializar la app
         //los atributos y fns que seas públicas serán visibles en la 
         //globalidad de la aplicación. 
+        public static Logica.Models.Usuario MiUsuarioGlobal = new Logica.Models.Usuario();
 
         public static Form MiFormularioPrincipal = new Formularios.FrmMDIPrincipal();
 
