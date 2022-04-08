@@ -40,7 +40,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.MnuProveedoresGestion = new System.Windows.Forms.ToolStripMenuItem();
             this.pROCESOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fACTURACIONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFacturar = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.cobroFacturasDeCréditoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -138,7 +138,7 @@
             // pROCESOSToolStripMenuItem
             // 
             this.pROCESOSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fACTURACIONToolStripMenuItem,
+            this.MnuFacturar,
             this.toolStripSeparator3,
             this.cobroFacturasDeCréditoToolStripMenuItem,
             this.toolStripSeparator4,
@@ -149,11 +149,13 @@
             this.pROCESOSToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.pROCESOSToolStripMenuItem.Text = "PROCESOS";
             // 
-            // fACTURACIONToolStripMenuItem
+            // MnuFacturar
             // 
-            this.fACTURACIONToolStripMenuItem.Name = "fACTURACIONToolStripMenuItem";
-            this.fACTURACIONToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.fACTURACIONToolStripMenuItem.Text = "FACTURACION";
+            this.MnuFacturar.Name = "MnuFacturar";
+            this.MnuFacturar.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.MnuFacturar.Size = new System.Drawing.Size(212, 22);
+            this.MnuFacturar.Text = "FACTURACION";
+            this.MnuFacturar.Click += new System.EventHandler(this.MnuFacturar_Click);
             // 
             // toolStripSeparator3
             // 
@@ -340,7 +342,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem MnuProveedoresGestion;
         private System.Windows.Forms.ToolStripMenuItem pROCESOSToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fACTURACIONToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MnuFacturar;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem cobroFacturasDeCréditoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;

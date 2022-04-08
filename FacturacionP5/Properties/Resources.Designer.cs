@@ -63,9 +63,39 @@ namespace FacturacionP5.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap add_item_icon_png_7 {
+            get {
+                object obj = ResourceManager.GetObject("add-item-icon-png-7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap add_item_icon_png_7_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("add-item-icon-png-7-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap appbackground {
             get {
                 object obj = ResourceManager.GetObject("appbackground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LogoP5F {
+            get {
+                object obj = ResourceManager.GetObject("LogoP5F", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

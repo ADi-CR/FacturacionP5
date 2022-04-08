@@ -18,5 +18,7 @@ namespace FacturacionP5
 
         public static Formularios.FrmUsuariosGestion MiFormDeGestionDeUsuarios = new Formularios.FrmUsuariosGestion();
 
+        public static Formularios.FrmFacturacion MiFormFacturador = new Formularios.FrmFacturacion();
+
     }
 }
