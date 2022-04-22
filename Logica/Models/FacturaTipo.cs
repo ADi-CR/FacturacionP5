@@ -37,8 +37,9 @@ namespace Logica.Models
         {
             DataTable R = new DataTable();
 
-            //TODO: Escribir código para llenar R con los
-            //datos necesarios
+            Conexion MyCnn = new Conexion();
+
+            R = MyCnn.EjecutarSelect("SpFacturasTipoListar");
 
             return R;
         }

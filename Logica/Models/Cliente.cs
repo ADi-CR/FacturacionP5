@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Data.SqlClient;
 
 namespace Logica.Models
 {
@@ -13,7 +14,7 @@ namespace Logica.Models
         public bool Activo { get; set; }
 
         //atributos compuestos
-        ClienteTipo MiTipo { get; set; }
+        public ClienteTipo MiTipo { get; set; }
 
         //constructor de la clase para instanciar el atributo compuesto simple
         public Cliente()
@@ -82,11 +83,15 @@ namespace Logica.Models
 
         }
 
-        public DataTable Listar(bool VerActivos = true)
+        public DataTable Listar(bool VerActivos = true, string Filtro = "")
         {
             DataTable R = new DataTable();
 
+            Conexion MyCnn = new Conexion();
 
+            MyCnn.ListaParametros.Add(new SqlParameter("@filtro", Filtro));
+
+            R = MyCnn.EjecutarSelect("SpClientesListar");
 
             return R;
         }
